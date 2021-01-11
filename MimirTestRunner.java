@@ -120,8 +120,8 @@ public class MimirTestRunner {
         }
 		int passed = runs - fails < 0 ? 0 : runs - fails;
         System.out.println(String.format(
-                "%d of %d tests passed. Your score is %d%%",
-                passed, runs, getScore()));
+                "%d of %d tests passed.",
+                passed, runs));
 
     }
 

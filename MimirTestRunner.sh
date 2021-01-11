@@ -43,7 +43,7 @@ java -javaagent:lib/jacocoagent.jar=destfile=results.exec MimirTestRunner >> ${D
 status=$?
 if [ $status -ne 100 ]; then
   echo 0 > ${DIR}/OUTPUT
-  echo "All test cases must pass for coverage score" >> ${DIR}/DEBUG
+  echo "All test cases MUST pass. Your score is 0%" >> ${DIR}/DEBUG
   exit 1
 fi
 
