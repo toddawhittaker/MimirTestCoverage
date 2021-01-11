@@ -35,8 +35,8 @@ source ./MimirTestRunner.sh
   Alternately, you could directly paste in the contents of `MimirTestRunner.sh` from the repo.
 
 
-That's it. The `MimirTestRunner.sh` will grab the test runner and required JUnit  
-and JaCoCo libraries from this repo. It will compile all the Java files and run those that  
+That's it. The `MimirTestRunner.sh` will grab the test runner and required JUnit
+and JaCoCo libraries from this repo. It will compile all the Java files and run those that
 are test cases to collect coverage data (right now it's lines + branches). It will output
 the percentage of coverage to form the grade.
 
