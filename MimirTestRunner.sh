@@ -11,7 +11,7 @@ rm -f OUTPUT
 
 # move all jar files into lib
 mkdir -p lib
-mv *.jar lib 2>/dev/null
+mv ./*.jar lib 2>/dev/null
 
 # build up a nice classpath with all libraries
 DIR=$(pwd)
@@ -25,7 +25,7 @@ then
 fi
 
 # compile into separate bin directory (part of classpath)
-javac -d bin *.java;
+javac -d bin ./*.java
 
 # compile error triggers zero grade
 if [ $? -ne 0 ]; then
@@ -69,7 +69,7 @@ while read GROUP PACKAGE CLASS INSTRUCTION_MISSED \
 do
   # ignore coverage of test classes and the test runner
   if [[ ! ${CLASS} =~ .+Test(Runner)?$ ]]; then
-    class_lines=$(($LINE_MISSED+$LINE_COVERED))
+    class_lines=$((LINE_MISSED+LINE_COVERED))
     class_branch=$(($BRANCH_MISSED+$BRANCH_COVERED))
     covered=$(($covered+$LINE_COVERED+$BRANCH_COVERED))
     total=$(($total+$class_lines+$class_branch))
