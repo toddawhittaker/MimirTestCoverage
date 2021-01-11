@@ -51,15 +51,17 @@ fi
 java -jar lib/jacococli.jar report results.exec --classfiles bin --csv results.csv --sourcefiles . --quiet #>> ${DIR}/DEBUG
 if [ ! -f results.csv ]; then
   echo 0 > "${DIR}/OUTPUT"
-  echo "No coverage results generated" >> "${DIR}/DEBUG"
+  echo "No coverage results generated. Your score is 0%" >> "${DIR}/DEBUG"
   exit 1
 fi
 
 # ugly Bash processing of CSV file
 total=0;
 covered=0;
-echo "" >> "${DIR}/DEBUG"
-echo "Coverage results:" >> "${DIR}/DEBUG"
+{
+  echo ""
+  echo "Coverage results:"
+} >> "${DIR}/DEBUG"
 
 IFS=','
 while read -r GROUP PACKAGE CLASS INSTRUCTION_MISSED \
@@ -73,9 +75,11 @@ do
     class_branch=$((BRANCH_MISSED+BRANCH_COVERED))
     covered=$((covered+LINE_COVERED+BRANCH_COVERED))
     total=$((total+class_lines+class_branch))
-    echo "  Class $CLASS" >> "${DIR}/DEBUG"
-    echo "    $LINE_COVERED of $class_lines lines covered" >> "${DIR}/DEBUG"
-    echo "    $BRANCH_COVERED of $class_branch branches covered" >> "${DIR}/DEBUG"
+	{
+      echo "  Class $CLASS"
+      echo "    $LINE_COVERED of $class_lines lines covered"
+      echo "    $BRANCH_COVERED of $class_branch branches covered"
+	} >> "${DIR}/DEBUG"
   fi
 done < <(tail -n +2 results.csv)
 
@@ -84,8 +88,9 @@ if [ $total -ne 0 ]; then
   pct=$((covered*100/total))
 fi
 
-echo "" >> "${DIR}/DEBUG"
-echo "$covered of $total elements covered. Your score is $pct%" >> "${DIR}/DEBUG"
-
+{
+  echo ""
+  echo "$covered of $total elements covered. Your score is $pct%"
+} >> "${DIR}/DEBUG"
 # produce final grade
 echo "$pct" > "${DIR}/OUTPUT"
