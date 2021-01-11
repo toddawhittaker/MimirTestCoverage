@@ -1,12 +1,13 @@
-# MimirTestRunner
-A script and support files for running JUnit 4 tests in programming quesions in MimirHQ
+# MimirTestCoverage
+A script for evaluating code coverage for student written JUnit tests in MimirHQ
 
-Mimir is an excellent tool for teaching computer science. However, their test case  
-syntax leaves something to be desired if you've worked with JUnit. You don't have  
-access to the assertions that JUnit has, nor the ability to define functions for setUp()  
-or tearDown() or any other custome function. It's a fairly severe limitation.  
+Mimir is an excellent tool for teaching computer science. However, I prefer teaching
+using test-driven development and awarding marks for student code coverage. There is
+currently no capability for this. However by combining my [MimirTestRunner](https://github.com/toddawhittaker/MimirTestRunner) with a little JaCoCo magic, we can get
+coverage statistics.
 
-This little repo solves that problem and lets you run any number of JUnit 4 tests.
+This little repo solves that problem and lets you calculate scores based on student test coverage
+of their own (or your) program code. 
 
 ## How to use
 1. Create a new "Code Question" in Mimir.
@@ -16,17 +17,18 @@ This little repo solves that problem and lets you run any number of JUnit 4 test
 for the problem
 1. Select a "Custom Test Case" for the test case type.
 1. Turn on "Allow partial credit"
-1. Drag and drop any test cases or supplemental JAR files into the Files area
+1. Drag and drop any supplemental Java or JAR files into the Files area
+(these will be added to the classpath)
 1. Paste the following test script into the Bash script area:  
 ```bash
 # To use this script:
-#   Add "Optional" files containing your test cases
-#   (file names must macth ".*Test.java$" regex) and
+#   Add files containing the code you want students to test
+#   (file names must not match ".*Test.java$" regex) and
 #   any other jar files or java files you want to compile
 #   or include in the classpath. You could also wget
 #   those file from a github source.
 
-wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestRunner/master/MimirTestRunner.sh
+wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/MimirTestRunner.sh
 source ./MimirTestRunner.sh
 ```  
   
@@ -34,11 +36,8 @@ source ./MimirTestRunner.sh
 
 
 That's it. The `MimirTestRunner.sh` will grab the test runner and required JUnit  
-libraries from this repo. It will compile all the Java files and run those that  
-are test cases. The exit code from the runner will tell Mimir what percent of the  
-test cases pass.
-
-If you want to provide debugging help to students, it's best to give them a message as  
-the first parameter to all your calls to `assertXXXX`.
+and JaCoCo libraries from this repo. It will compile all the Java files and run those that  
+are test cases to collect coverage data (right now it's lines + branches). It will output
+the percentage of coverage to form the grade.
 
 Happy unit testing!
