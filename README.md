@@ -34,6 +34,8 @@ source ./MimirTestRunner.sh
   
   Alternately, you could directly paste in the contents of `MimirTestRunner.sh` from the repo.
 
+Make sure students are submitting files that match the regex ```.*Test.java$``` in order for them
+to be run. Coverage on test files is ignored.
 
 That's it. The `MimirTestRunner.sh` will grab the test runner and required JUnit
 and JaCoCo libraries from this repo. It will compile all the Java files and run those that
