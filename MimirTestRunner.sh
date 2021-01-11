@@ -1,9 +1,9 @@
 #!/bin/bash
-#wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/hamcrest-core-1.3.jar
-#wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/junit-4.13.jar
-#wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/jacocoagent.jar
-#wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/jacococli.jar
-#wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/MimirTestRunner.java
+wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/hamcrest-core-1.3.jar
+wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/junit-4.13.jar
+wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/jacocoagent.jar
+wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/jacococli.jar
+wget -q https://raw.githubusercontent.com/toddawhittaker/MimirTestCoverage/master/MimirTestRunner.java
 
 # get rid of old grading files if exist
 rm -f DEBUG
