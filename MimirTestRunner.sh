@@ -62,7 +62,7 @@ echo "" >> "${DIR}/DEBUG"
 echo "Coverage results:" >> "${DIR}/DEBUG"
 
 IFS=','
-while read GROUP PACKAGE CLASS INSTRUCTION_MISSED \
+while read -r GROUP PACKAGE CLASS INSTRUCTION_MISSED \
   INSTRUCTION_COVERED BRANCH_MISSED BRANCH_COVERED \
   LINE_MISSED LINE_COVERED COMPLEXITY_MISSED \
   COMPLEXITY_COVERED METHOD_MISSED METHOD_COVERED
@@ -70,9 +70,9 @@ do
   # ignore coverage of test classes and the test runner
   if [[ ! ${CLASS} =~ .+Test(Runner)?$ ]]; then
     class_lines=$((LINE_MISSED+LINE_COVERED))
-    class_branch=$(($BRANCH_MISSED+$BRANCH_COVERED))
-    covered=$(($covered+$LINE_COVERED+$BRANCH_COVERED))
-    total=$(($total+$class_lines+$class_branch))
+    class_branch=$((BRANCH_MISSED+BRANCH_COVERED))
+    covered=$((covered+LINE_COVERED+BRANCH_COVERED))
+    total=$((total+class_lines+class_branch))
     echo "  Class $CLASS" >> "${DIR}/DEBUG"
     echo "    $LINE_COVERED of $class_lines lines covered" >> "${DIR}/DEBUG"
     echo "    $BRANCH_COVERED of $class_branch branches covered" >> "${DIR}/DEBUG"
@@ -81,7 +81,7 @@ done < <(tail -n +2 results.csv)
 
 pct=0
 if [ $total -ne 0 ]; then
-  pct=$(($covered*100/$total))
+  pct=$((covered*100/total))
 fi
 
 echo "" >> "${DIR}/DEBUG"
