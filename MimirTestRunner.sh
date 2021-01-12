@@ -29,22 +29,24 @@ javac -d bin ./*.java
 
 # compile error triggers zero grade
 if [ $? -ne 0 ]; then
+  echo "Compile errors. Your score is 0%" > "${DIR}/DEBUG"
   echo 0 > "${DIR}/OUTPUT"
   exit 1
 fi
 
 # produce any student output for their own testing
+# this doesn't count for coverage points.
 if [ -f "RunMe.java" ]; then
     java RunMe >> "${DIR}/DEBUG"
 fi
 
 # run test cases instrumented with JaCoCo
 java -javaagent:lib/jacocoagent.jar=destfile=results.exec MimirTestRunner >> "${DIR}/DEBUG"
-status=$?
-if [ $status -ne 100 ]; then
-  echo 0 > "${DIR}/OUTPUT"
-  echo "All test cases MUST pass. Your score is 0%" >> "${DIR}/DEBUG"
-  exit 1
+pass_pct=$?
+if [ $pass_pct -ne 100 ]; then
+#  echo 0 > "${DIR}/OUTPUT"
+  echo "Not all test cases have passed. Your score will be modified by that percentage." >> "${DIR}/DEBUG"
+#  exit 1
 fi
 
 # produce JaCoCo report as CSV
@@ -83,14 +85,17 @@ do
   fi
 done < <(tail -n +2 results.csv)
 
-pct=0
+cover_pct=0
 if [ $total -ne 0 ]; then
-  pct=$((covered*100/total))
+  cover_pct=$((covered*100/total))
 fi
+
+score=$((cover_pct*pass_pct/100))
 
 {
   echo ""
-  echo "$covered of $total elements covered. Your score is $pct%"
+  echo "$covered of $total elements is $cover_pct% coverage."
+  echo "Your score is $cover_pct% * $pass_pct = $score."
 } >> "${DIR}/DEBUG"
 # produce final grade
-echo "$pct" > "${DIR}/OUTPUT"
+echo "$score" > "${DIR}/OUTPUT"
