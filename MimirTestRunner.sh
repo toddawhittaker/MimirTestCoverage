@@ -94,7 +94,8 @@ fi
 score=$((cover_pct*pass_pct/100))
 
 {
-  echo "$covered of $total elements is $cover_pct% code coverage."
+  echo "$covered of $total elements covered."
+  echo "Covered $cover_pct% of code."
   echo ""
   echo "Your score is $cover_pct% coverage * $pass_pct% passed tests = $score%"
 } >> "${DIR}/DEBUG"
