@@ -43,9 +43,10 @@ fi
 # run test cases instrumented with JaCoCo
 java -javaagent:lib/jacocoagent.jar=destfile=results.exec MimirTestRunner >> "${DIR}/DEBUG"
 pass_pct=$?
+echo "Passed $pass_pct% of tests." >> "${DIR}/DEBUG"
 if [ $pass_pct -ne 100 ]; then
 #  echo 0 > "${DIR}/OUTPUT"
-  echo "Not all test cases have passed. Your score will be modified by that percentage." >> "${DIR}/DEBUG"
+  echo "Since not all test cases have passed, your coverage score will be lowered." >> "${DIR}/DEBUG"
 #  exit 1
 fi
 
@@ -94,8 +95,8 @@ score=$((cover_pct*pass_pct/100))
 
 {
   echo ""
-  echo "$covered of $total elements is $cover_pct% coverage."
-  echo "Your score is $cover_pct% * $pass_pct = $score."
+  echo "$covered of $total elements is $cover_pct% code coverage."
+  echo "Your score is $cover_pct% coverage * $pass_pct% passed tests = $score%"
 } >> "${DIR}/DEBUG"
 # produce final grade
 echo "$score" > "${DIR}/OUTPUT"
