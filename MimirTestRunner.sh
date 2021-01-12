@@ -44,11 +44,11 @@ fi
 java -javaagent:lib/jacocoagent.jar=destfile=results.exec MimirTestRunner >> "${DIR}/DEBUG"
 pass_pct=$?
 echo "Passed $pass_pct% of tests." >> "${DIR}/DEBUG"
-if [ $pass_pct -ne 100 ]; then
+#if [ $pass_pct -ne 100 ]; then
 #  echo 0 > "${DIR}/OUTPUT"
-  echo "Since not all test cases have passed, your coverage score will be lowered." >> "${DIR}/DEBUG"
+#  echo "Since not all test cases have passed, your coverage score will be lowered." >> "${DIR}/DEBUG"
 #  exit 1
-fi
+#fi
 
 # produce JaCoCo report as CSV
 java -jar lib/jacococli.jar report results.exec --classfiles bin --csv results.csv --sourcefiles . --quiet #>> ${DIR}/DEBUG
@@ -64,8 +64,10 @@ covered=0;
 {
   echo ""
   echo "Coverage results:"
+  echo ""
 } >> "${DIR}/DEBUG"
 
+counter=1
 IFS=','
 while read -r GROUP PACKAGE CLASS INSTRUCTION_MISSED \
   INSTRUCTION_COVERED BRANCH_MISSED BRANCH_COVERED \
@@ -79,10 +81,11 @@ do
     covered=$((covered+LINE_COVERED+BRANCH_COVERED))
     total=$((total+class_lines+class_branch))
 	{
-      echo "  Class $CLASS"
-      echo "    $LINE_COVERED of $class_lines lines covered"
-      echo "    $BRANCH_COVERED of $class_branch branches covered"
+      echo "$counter. Class $CLASS"
+      echo "     $LINE_COVERED of $class_lines lines covered"
+      echo "     $BRANCH_COVERED of $class_branch branches covered"
 	} >> "${DIR}/DEBUG"
+	let counter++
   fi
 done < <(tail -n +2 results.csv)
 
